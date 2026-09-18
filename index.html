@@ -20,6 +20,8 @@
   --s4bg:#F4D5C9; --s4fg:#6B2B21; --s4chip:rgba(181,18,27,.13);
   --s5bg:#E9E5E3; --s5fg:#4A4340; --s5chip:rgba(0,0,0,.08);
   --s6bg:transparent; --s6fg:#8A8280; --s6chip:rgba(0,0,0,.05);
+  --c1:#B5121B; --c2:#2B5C87; --c3:#8A5A0F; --c4:#8A3560;
+  --c5:#146B6B; --c6:#4C6B24; --c7:#566070;
   --sans:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Heiti SC",system-ui,sans-serif;
   --mono:"IBM Plex Mono","PingFang SC",ui-monospace,monospace;
 }
@@ -33,6 +35,8 @@
   --s4bg:#4A2A25; --s4fg:#EFC4B8; --s4chip:rgba(255,255,255,.12);
   --s5bg:#282220; --s5fg:#A89F9C; --s5chip:rgba(255,255,255,.09);
   --s6bg:transparent; --s6fg:#7A7270; --s6chip:rgba(255,255,255,.07);
+  --c1:#E8574E; --c2:#6FA9D6; --c3:#D5A248; --c4:#D07BA6;
+  --c5:#4FB3B3; --c6:#93C05C; --c7:#96A2B2;
 }}
 :root[data-theme="dark"]{
   --ground:#14100F; --surface:#1C1817; --surface2:#241F1D;
@@ -44,6 +48,8 @@
   --s4bg:#4A2A25; --s4fg:#EFC4B8; --s4chip:rgba(255,255,255,.12);
   --s5bg:#282220; --s5fg:#A89F9C; --s5chip:rgba(255,255,255,.09);
   --s6bg:transparent; --s6fg:#7A7270; --s6chip:rgba(255,255,255,.07);
+  --c1:#E8574E; --c2:#6FA9D6; --c3:#D5A248; --c4:#D07BA6;
+  --c5:#4FB3B3; --c6:#93C05C; --c7:#96A2B2;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);
@@ -102,9 +108,10 @@ main{padding-block:14px 40px}
 @media(max-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:420px){.grid{grid-template-columns:1fr}}
 .col{display:flex;flex-direction:column;gap:10px;min-width:0}
-.cathead{border-bottom:2px solid var(--ink);padding-bottom:7px;margin-bottom:1px;
+.cathead{border-bottom:2px solid var(--cc,var(--ink));padding-bottom:7px;margin-bottom:1px;
   min-height:42px;display:flex;flex-direction:column;justify-content:flex-end}
-.cathead h2{margin:0;font-size:13.5px;font-weight:700;letter-spacing:.01em;line-height:1.35}
+.cathead h2{margin:0;font-size:13.5px;font-weight:700;letter-spacing:.01em;line-height:1.35;
+  color:var(--cc,var(--ink))}
 .cathead span{font-family:var(--mono);font-size:10.5px;color:var(--faint);display:block;margin-top:2px}
 
 .card{border:0;text-align:left;font-family:var(--sans);border-radius:5px;padding:11px 11px 10px;
@@ -220,8 +227,8 @@ document.getElementById('pipe').innerHTML = STAGES.map(s=>{
 }).join('');
 
 // 卡片
-document.getElementById('main').innerHTML = '<div class="grid">' + CATS.map(c=>`
-  <div class="col" data-cat>
+document.getElementById('main').innerHTML = '<div class="grid">' + CATS.map((c,ci)=>`
+  <div class="col" data-cat style="--cc:var(--c${(ci%7)+1})">
     <div class="cathead"><h2>${esc(c.name)}</h2><span>${c.ids.length} 款</span></div>
     ${c.ids.map(id=>{
       const p=P[id]; const mode=(p['生产方式']||'待填').replace(/（.*/,'');
